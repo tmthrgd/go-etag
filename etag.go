@@ -13,6 +13,13 @@ import (
 
 const defaultLength = 32
 
+// New wraps a hash.Hash and provides
+// methods to get strong and weak Etags
+// from the underlying hash.Hash.
+func New(h hash.Hash) *Hash {
+	return &Hash{Hash: h}
+}
+
 // Hash wraps a hash.Hash and provides
 // methods to get strong and weak Etags
 // from the underlying hash.Hash.
