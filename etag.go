@@ -3,6 +3,8 @@
 // Modified BSD License license that can be found in
 // the LICENSE file.
 
+// Package etag provides methods to get
+// strong and weak Etags from a hash.Hash.
 package etag
 
 import (
