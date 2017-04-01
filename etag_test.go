@@ -31,7 +31,7 @@ func (h dummyHash) Sum(p []byte) []byte {
 
 func TestEtag(t *testing.T) {
 	for i := 1; i <= 128; i++ {
-		etag := (&Etag{
+		etag := (&Hash{
 			Hash:   dummyHash(make([]byte, 128)),
 			Length: i,
 		}).Etag()
@@ -43,7 +43,7 @@ func TestEtag(t *testing.T) {
 
 func TestWeakEtag(t *testing.T) {
 	for i := 1; i <= 128; i++ {
-		etag := (&Etag{
+		etag := (&Hash{
 			Hash:   dummyHash(make([]byte, 128)),
 			Length: i,
 		}).WeakEtag()
@@ -56,7 +56,7 @@ func TestWeakEtag(t *testing.T) {
 func TestCorrect(t *testing.T) {
 	if err := quick.CheckEqual(func(p []byte, s uint) string {
 		s &= ^uint(0) >> 1
-		return (&Etag{
+		return (&Hash{
 			Hash:   dummyHash(p),
 			Length: int(s),
 		}).Etag()
@@ -80,7 +80,7 @@ func TestCorrect(t *testing.T) {
 func BenchmarkEtag(b *testing.B) {
 	for i := 16; i <= 128; i *= 2 {
 		b.Run(fmt.Sprint(i), func(b *testing.B) {
-			h := &Etag{
+			h := &Hash{
 				Hash:   dummyHash(make([]byte, i)),
 				Length: i,
 			}
@@ -97,7 +97,7 @@ func BenchmarkEtag_SHA512_256(b *testing.B) {
 
 	for i := 16; i <= 2*h.Size(); i *= 2 {
 		b.Run(fmt.Sprint(i), func(b *testing.B) {
-			h := &Etag{h, i}
+			h := &Hash{h, i}
 
 			for n := 0; n < b.N; n++ {
 				h.Etag()
